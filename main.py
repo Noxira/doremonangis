@@ -9,7 +9,8 @@ from Functions import hash
 from Functions import csv
 from Functions import register
 from Functions import login
-
+from Functions import search
+from Functions import modifikasi
 
 # Fungsi lokal
 def loadAllFiles(): # Untuk loading file2 biar rapih aja
@@ -20,7 +21,7 @@ def loadAllFiles(): # Untuk loading file2 biar rapih aja
     dataGadget = csv.openFileGadget(args.folderDirectory + "/gadget.csv")
     dataConsumable = csv.openFileConsumable(args.folderDirectory + "/consumable.csv")
 
-def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list of array menj adi csv ke suatu folder
+def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list of array menjadi csv ke suatu folder
     if not(os.path.exists(folderName)):
         os.mkdir(folderName)
     csv.writeFileUser(folderName+"/user.csv", dataUser)
@@ -69,7 +70,26 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
             running = False
         else:
             print("\nInput tidak diterima")
-     
+
+    elif userinput =="carirarity":
+        dicari = str(input("Masukan rarity: "))
+        search.carirarity(dicari, dataGadget)
+
+    elif userinput =="caritahun":
+        dicari = int(input("Masukan tahun: "))
+        kategori = str(input("Masukan kategori: "))
+        search.caritahun(dicari, kategori, dataGadget)
+
+    elif userinput=="tambahitem":
+        dicari = (input("Masukan ID: "))
+        if dicari[0]=="G":
+            modifikasi.tambahitem(dicari,dataGadget,userIsAdmin)
+        elif dicari[0]=="C":
+            modifikasi.tambahitem(dicari, dataConsumable, userIsAdmin)
+        else:
+            print("Masukan tidak valid")
+
+
 
 # Variabel lokal
 running = True
@@ -86,7 +106,6 @@ try:
 
     # kita load data-datanya terlebih dahulu
     loadAllFiles()
-    print(dataGadget)
 
     while running:
         userinput = input(">> ")
