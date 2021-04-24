@@ -17,10 +17,15 @@ def loadAllFiles(): # Untuk loading file2 biar rapih aja
     global dataUser
     global dataGadget
     global dataConsumable
+    global dataConsumableHistory
+    global dataGadgetBorrowHistory
+    global dataGadgetReturnHistory
     dataUser = csv.openFileUser(args.folderDirectory + "/user.csv")
     dataGadget = csv.openFileGadget(args.folderDirectory + "/gadget.csv")
     dataConsumable = csv.openFileConsumable(args.folderDirectory + "/consumable.csv")
-    historyConsumable = csv.openFileConsumableHistory(args.folderDirectory + "/consumable_history.csv")
+    dataConsumableHistory = csv.openFileConsumableHistory(args.folderDirectory + "/consumable_history.csv")
+    dataGadgetBorrowHistory = csv.openFileGadgetBorrowHistory(args.folderDirectory + "/gadget_borrow_history.csv")
+    dataGadgetReturnHistory = csv.openFileGadgetReturnHistory(args.folderDirectory + "/gadget_return_history.csv")
 
 def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list of array menjadi csv ke suatu folder
     if not(os.path.exists(folderName)):
@@ -28,7 +33,9 @@ def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list
     csv.writeFileUser(folderName+"/user.csv", dataUser)
     csv.writeFileGadget(folderName+"/gadget.csv", dataGadget)
     csv.writeFileConsumable(folderName+"/consumable.csv", dataConsumable)
-    
+    csv.writeFileConsumableHistory(folderName+"/consumable_history.csv", dataConsumableHistory)
+    csv.writeFileGadgetBorrowHistory(folderName+"/gadget_borrow_history.csv", dataGadgetBorrowHistory)
+    csv.writeFileGadgetReturnHistory(folderName+"/gadget_return_history.csv", dataGadgetReturnHistory)
 
 def modify_data(data, idx, col, value): # Untuk mengubah data di suatu data
   data[idx][col] = value
@@ -56,7 +63,7 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
             print("\nPassword atau Username salah!")
 
     elif userinput == "save":
-        folderDir = input("\nMasukkan nama folder:")
+        folderDir = input("\nMasukkan nama folder: ")
         saveFilesTo(folderDir)
 
         print("\nSaving..")
@@ -83,46 +90,16 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         search.caritahun(dicari, kategori, dataGadget)
 
     elif userinput=="tambahitem":
-        if loggedIn==False:
-            print("Harap login terlebih dahulu!")
+        dicari = (input("Masukan ID: "))
+        if dicari[0]=="G":
+            modifikasi.tambahitem(dicari,dataGadget,userIsAdmin)
+        elif dicari[0]=="C":
+            modifikasi.tambahitem(dicari, dataConsumable, userIsAdmin)
         else:
-            if userIsAdmin == False:
-                print("Hanya Admin yang dapat menambahkan item")
-            else:
-                dicari = (input("Masukan ID: "))
-                if dicari[0]=="G":
-                    modifikasi.tambahitem(dicari,dataGadget)
-                elif dicari[0]=="C":
-                    modifikasi.tambahitem(dicari, dataConsumable)
-                else:
-                    print("Masukan tidak valid")
+            print("Masukan tidak valid")
 
-    elif userinput =="hapusitem":
-        if loggedIn == False:
-            print("Harap login terlebih dahulu!")
-        else:
-            if userIsAdmin == False:
-                print("Hanya Admin yang dapat menambahkan item")
-            else:
-                dicari = input("Masukkan ID item yang ingin dihapus")
-                if dicari[0] == "G":
-                    modifikasi.hapusitem(dicari, dataGadget)
-                elif dicari[0] == "C":
-                    modifikasi.hapusitem(dicari, dataConsumable)
 
-    elif userinput == "ubahjumlah":
-        if loggedIn == False:
-            print("Harap login terlebih dahulu!")
-        else:
-            if userIsAdmin == False:
-                print("Hanya Admin yang dapat mengubah stok item")
-            else:
-                dicari = input("Masukkan ID: ")
-                jumlah = int(input("Masukkan jumlah: "))
-                if dicari[0] == "G":
-                    modifikasi.ubahjumlah(dicari,jumlah, dataGadget)
-                elif dicari[0] == "C":
-                    modifikasi.ubahjumlah(dicari,jumlah, dataConsumable)
+
 # Variabel lokal
 running = True
 loggedIn = False
