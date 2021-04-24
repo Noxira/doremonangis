@@ -2,6 +2,9 @@ def carirarity(x,datas):
     #x disini adalah rarity yang dicari
     #datas disini adalah gadget.csv
 
+    # inisiasi count untuk mengecek apakah ada data sesuai/tidak
+    count = 0
+
     for i in range(len(datas)):
         if datas[i][4]== x:
             print("Hasil Pencarian:\n")
@@ -10,14 +13,18 @@ def carirarity(x,datas):
             print("Jumlah           :", datas[i][3])
             print("Rarity           :", datas[i][4])
             print("Tahun ditemukan  :", datas[i][5])
-
+            count = count+1     #setidaknya ada 1 data sesuai
 
         print(end="")
-
+    if count==0:
+        print("tidak ada gadget ditemukan!")
 def caritahun(x,y,datas):
     # x disini adalah tahun yang dicari
     #y adalah kategori (= , < , > ,>=, <=
     # datas disini adalah gadget.csv
+
+    #inisiasi count untuk mengecek apakah ada data/tidak
+    count = 0
 
     for i in range(len(datas)):
         if y=="=":
@@ -28,10 +35,9 @@ def caritahun(x,y,datas):
                 print("Jumlah           :", datas[i][3])
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
+                print(end="")
+                count=count+1
 
-            print(end="")
-            else:
-                print("Tidak ditemukan data")
         elif y == ">":
             if datas[i][5] > x:
                 print("Hasil Pencarian:\n")
@@ -41,9 +47,9 @@ def caritahun(x,y,datas):
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-            print(end="")
-            else:
-                print("Tidak ditemukan data")
+                print(end="")
+                count = count + 1
+
         elif y == ">=":
             if datas[i][5] >= x:
                 print("Hasil Pencarian:\n")
@@ -53,9 +59,9 @@ def caritahun(x,y,datas):
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-            print(end="")
-            else:
-                print("Tidak ditemukan data")
+                print(end="")
+                count = count + 1
+
         elif y == "<=":
             if datas[i][5] <= x:
                 print("Hasil Pencarian:\n")
@@ -65,9 +71,8 @@ def caritahun(x,y,datas):
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-            print(end="")
-            else:
-                print("Tidak ditemukan data")
+                print(end="")
+                count = count + 1
         elif y == "<":
             if datas[i][5] < x:
                 print("Hasil Pencarian:\n")
@@ -77,6 +82,8 @@ def caritahun(x,y,datas):
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-            print(end="")
-            else:
-                print("Tidak ditemukan data")
+                print(end="")
+                count = count + 1
+
+    if count == 0:
+        print("Tidak ditemukan data pada tahun", y, x)
