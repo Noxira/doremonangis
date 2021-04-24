@@ -30,6 +30,8 @@ def caritahun(x,y,datas):
                 print("Tahun ditemukan  :", datas[i][5])
 
             print(end="")
+            else:
+                print("Tidak ditemukan data")
         elif y == ">":
             if datas[i][5] > x:
                 print("Hasil Pencarian:\n")
@@ -40,6 +42,8 @@ def caritahun(x,y,datas):
                 print("Tahun ditemukan  :", datas[i][5])
 
             print(end="")
+            else:
+                print("Tidak ditemukan data")
         elif y == ">=":
             if datas[i][5] >= x:
                 print("Hasil Pencarian:\n")
@@ -50,6 +54,8 @@ def caritahun(x,y,datas):
                 print("Tahun ditemukan  :", datas[i][5])
 
             print(end="")
+            else:
+                print("Tidak ditemukan data")
         elif y == "<=":
             if datas[i][5] <= x:
                 print("Hasil Pencarian:\n")
@@ -60,6 +66,8 @@ def caritahun(x,y,datas):
                 print("Tahun ditemukan  :", datas[i][5])
 
             print(end="")
+            else:
+                print("Tidak ditemukan data")
         elif y == "<":
             if datas[i][5] < x:
                 print("Hasil Pencarian:\n")
@@ -70,3 +78,5 @@ def caritahun(x,y,datas):
                 print("Tahun ditemukan  :", datas[i][5])
 
             print(end="")
+            else:
+                print("Tidak ditemukan data")
