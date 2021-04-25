@@ -1,4 +1,4 @@
-#make polynomial rolling hash function
+# make polynomial rolling hash function
 # https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
 
 # unhashed = str(input("Masukkan string: "))  # input user untuk dihash
