@@ -239,3 +239,37 @@ def writeFileGadgetReturnHistory(fileName, datas):
 #-----------------------------------------------------------
 #                   BAGIAN GADGET_RETURN_HISTORY.CSV [END]
 #-----------------------------------------------------------
+
+#-----------------------------------------------------------
+#                   BAGIAN INVENTORY.CSV [START]
+#-----------------------------------------------------------
+
+# Inisiasi Fungsi2
+def inventory_convert_array_data_to_real_values(array_data):
+  arr_cpy = array_data[:]
+  return arr_cpy
+
+
+# Fungsi open file dan save file
+def openFileInventory(fileName):
+    f = open(fileName,"r")
+    raw_lines = f.readlines()
+    f.close()
+    lines = [raw_line.replace("\n", "") for raw_line in raw_lines]
+    del lines[0]
+    datas = []
+    for line in lines:
+        array_of_data = convert_line_to_data(line)
+        real_values = inventory_convert_array_data_to_real_values(array_of_data)
+        datas.append(real_values)
+    return datas
+
+def writeFileInventory(fileName, datas):
+    f = open(fileName, "w")
+    datas_as_string = convert_datas_to_string(datas, "id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah")
+    f.write(datas_as_string)
+    f.close()
+
+#-----------------------------------------------------------
+#                   BAGIAN INVENTORY.CSV [END]
+#-----------------------------------------------------------
