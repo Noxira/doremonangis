@@ -12,6 +12,11 @@ from Functions import login
 from Functions import search
 from Functions import modifikasi
 
+# Variabel lokal
+running = True
+loggedIn = False
+userIsAdmin = False
+
 # Fungsi lokal
 def loadAllFiles(): # Untuk loading file2 biar rapih aja
     global dataUser
@@ -45,31 +50,72 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
     global userIsAdmin  # [Penting] akan menyimpan apakah user admin atau tidak (Bool)
     global running
     global loggedIn     # [Penting] akan menyimpan apakah user sudah login atau belum (Bool)
+    
     if userinput == "register":
-        print("")
-        dataUser = register.addNewUser(dataUser)
-    elif userinput == "login":
-        print("")
-        userTemp = input("Masukkan username: ")
-        passTemp = input("Masukkan password: ")
-        if login.passwordCheck(dataUser, userTemp, passTemp):
-            print("\nHalo " + userTemp + "! Selamat datang di Kantong Ajaib")
-            loggedIn = True
-            if login.isAdmin(dataUser, userTemp):
-                userIsAdmin = True
+        if loggedIn == True:                                                            # F01
+            if userIsAdmin == True:
+                print("")
+                dataUser = register.addNewUser(dataUser)
             else:
-                userIsAdmin = False
+                print("User bukan admin!")
         else:
-            print("\nPassword atau Username salah!")
+            print("User belum log in!")
 
-    elif userinput == "save":
+    elif userinput == "login":                                                          # F02
+        if loggedIn == False:    
+            print("")
+            userTemp = input("Masukkan username: ")
+            passTemp = input("Masukkan password: ")
+            if login.passwordCheck(dataUser, userTemp, passTemp):
+                print("\nHalo " + userTemp + "! Selamat datang di Kantong Ajaib")
+                loggedIn = True
+                if login.isAdmin(dataUser, userTemp):
+                    userIsAdmin = True
+                else:
+                    userIsAdmin = False
+            else:
+                print("\nPassword atau Username salah!")
+        else:
+            print("User sudah log in!")
+    
+    elif userinput =="carirarity":                                                      # F03
+        if loggedIn == True:
+            dicari = str(input("Masukan rarity: "))
+            search.carirarity(dicari, dataGadget)
+        else:
+            print("User belum log in!")
+
+    elif userinput =="caritahun":                                                       # F04
+        if loggedIn == True: 
+            dicari = int(input("Masukan tahun: "))
+            kategori = str(input("Masukan kategori: "))
+            search.caritahun(dicari, kategori, dataGadget)
+        else: 
+            print("User belum log in!")
+
+    elif userinput=="tambahitem":                                                       # F05
+        if loggedIn == True:
+            if userIsAdmin == True:
+                dicari = (input("Masukan ID: "))
+                if dicari[0]=="G":
+                    modifikasi.tambahitem(dicari,dataGadget,userIsAdmin)
+                elif dicari[0]=="C":
+                    modifikasi.tambahitem(dicari, dataConsumable, userIsAdmin)
+                else:
+                    print("Masukan tidak valid")
+            else:
+                print("User bukan admin!")
+        else:
+            print("User belum log in!")
+
+    elif userinput == "save":                                                           # F15
         folderDir = input("\nMasukkan nama folder: ")
         saveFilesTo(folderDir)
 
         print("\nSaving..")
         print("Data telah disimpan pada folder "+ folderDir)
 
-    elif userinput == "exit":
+    elif userinput == "exit":                                                           # F17
         saveFiles = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ")
         saveFiles = saveFiles.lower()
         if saveFiles == "y":
@@ -80,36 +126,14 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("\nInput tidak diterima")
 
-    elif userinput =="carirarity":
-        dicari = str(input("Masukan rarity: "))
-        search.carirarity(dicari, dataGadget)
-
-    elif userinput =="caritahun":
-        dicari = int(input("Masukan tahun: "))
-        kategori = str(input("Masukan kategori: "))
-        search.caritahun(dicari, kategori, dataGadget)
-
-    elif userinput=="tambahitem":
-        dicari = (input("Masukan ID: "))
-        if dicari[0]=="G":
-            modifikasi.tambahitem(dicari,dataGadget,userIsAdmin)
-        elif dicari[0]=="C":
-            modifikasi.tambahitem(dicari, dataConsumable, userIsAdmin)
-        else:
-            print("Masukan tidak valid")
-
-
-
-# Variabel lokal
-running = True
-loggedIn = False
 
 # Sistem Argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("folderDirectory", help="path folder yang akan dibuka sistem")
-args = parser.parse_args()
+parser.add_argument("folderDirectory", help="path folder yang akan dibuka sistem")          
+args = parser.parse_args()                                                              # F14
 try:
-    # Kode di sini akan dijalankan bila folder ada, alias
+
+    # Kode di sini akan dijalankan bila folder dan file csv ada, alias
     # Main Program
     print('\nSelamat datang di "Kantong Ajaib"!\n')
 

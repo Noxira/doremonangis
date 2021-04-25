@@ -1,3 +1,4 @@
 id;username;nama;alamat;password;role
 1;Noxira;Farrel Farandieka Fibriyanto;Rumah Sakit Jiwa ITB;MidnightCaffeineCoding;admin
 2;NoxMini;Farrel Farandieka Fibriyanto;Deket Noxira;MiddayPowerProgramming;user
+3;admin;admin;NaN;admin;admin
