@@ -11,6 +11,9 @@ from Functions import register
 from Functions import login
 from Functions import search
 from Functions import modifikasi
+from Functions import user
+from Functions import riwayat
+
 
 # Fungsi lokal
 def loadAllFiles(): # Untuk loading file2 biar rapih aja
@@ -20,12 +23,14 @@ def loadAllFiles(): # Untuk loading file2 biar rapih aja
     global dataConsumableHistory
     global dataGadgetBorrowHistory
     global dataGadgetReturnHistory
+    global dataInventory
     dataUser = csv.openFileUser(args.folderDirectory + "/user.csv")
     dataGadget = csv.openFileGadget(args.folderDirectory + "/gadget.csv")
     dataConsumable = csv.openFileConsumable(args.folderDirectory + "/consumable.csv")
     dataConsumableHistory = csv.openFileConsumableHistory(args.folderDirectory + "/consumable_history.csv")
     dataGadgetBorrowHistory = csv.openFileGadgetBorrowHistory(args.folderDirectory + "/gadget_borrow_history.csv")
     dataGadgetReturnHistory = csv.openFileGadgetReturnHistory(args.folderDirectory + "/gadget_return_history.csv")
+    dataInventory = csv.openFileInventory(args.folderDirectory +"/inventory.csv")
 
 def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list of array menjadi csv ke suatu folder
     if not(os.path.exists(folderName)):
@@ -36,12 +41,24 @@ def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list
     csv.writeFileConsumableHistory(folderName+"/consumable_history.csv", dataConsumableHistory)
     csv.writeFileGadgetBorrowHistory(folderName+"/gadget_borrow_history.csv", dataGadgetBorrowHistory)
     csv.writeFileGadgetReturnHistory(folderName+"/gadget_return_history.csv", dataGadgetReturnHistory)
+    csv.writeFileInventory(folderName +"/inventory.csv", dataInventory)
+
 
 def modify_data(data, idx, col, value): # Untuk mengubah data di suatu data
   data[idx][col] = value
 
+#fungsi validasi, bernilai True jika terdapat ID sesuai didalam file csv
+def validasi(masukan,namaFiles):
+    kondisi = False
+    for i in range (len(namaFiles)):
+        if namaFiles[i][0]==masukan:
+            kondisi=True
+    return kondisi
+
+
 def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load data
     global dataUser
+    global namaUser     # Menyimpan nama user yang sedang login
     global userIsAdmin  # [Penting] akan menyimpan apakah user admin atau tidak (Bool)
     global running
     global loggedIn     # [Penting] akan menyimpan apakah user sudah login atau belum (Bool)
@@ -59,11 +76,12 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 userIsAdmin = True
             else:
                 userIsAdmin = False
+                namaUser = userTemp
         else:
             print("\nPassword atau Username salah!")
 
     elif userinput == "save":
-        folderDir = input("\nMasukkan nama folder: ")
+        folderDir = input("\nMasukkan nama folder:")
         saveFilesTo(folderDir)
 
         print("\nSaving..")
@@ -90,13 +108,85 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         search.caritahun(dicari, kategori, dataGadget)
 
     elif userinput=="tambahitem":
-        dicari = (input("Masukan ID: "))
-        if dicari[0]=="G":
-            modifikasi.tambahitem(dicari,dataGadget,userIsAdmin)
-        elif dicari[0]=="C":
-            modifikasi.tambahitem(dicari, dataConsumable, userIsAdmin)
+        if loggedIn==False:
+            print("Harap login terlebih dahulu!")
         else:
-            print("Masukan tidak valid")
+            if userIsAdmin == False:
+                print("Hanya Admin yang dapat menambahkan item")
+            else:
+                dicari = (input("Masukan ID: "))
+                if dicari[0]=="G":
+                    if validasi(dicari,dataGadget)==False:
+                        modifikasi.tambahitem(dicari,dataGadget)
+                    else:
+                        print("Sudah ada gadget dengan ID tersebut!")
+                elif dicari[0]=="C":
+                    if validasi(dicari,dataConsumable)==False:
+                        modifikasi.tambahitem(dicari, dataConsumable)
+                    else:
+                        print("Sudah ada consumable item dengan ID tersebut!")
+                else:
+                    print("Masukan tidak valid")
+
+    elif userinput =="hapusitem":
+        if loggedIn == False:
+            print("Harap login terlebih dahulu!")
+        else:
+            if userIsAdmin == False:
+                print("Hanya Admin yang dapat menambahkan item")
+            else:
+                dicari = input("Masukkan ID item yang ingin dihapus")
+                if dicari[0] == "G":
+                    if validasi(dicari, dataGadget) == True:
+                        modifikasi.hapusitem(dicari, dataGadget)
+                    else:
+                        print("Tidak ada ID gadget yang sesuai!")
+                elif dicari[0] == "C":
+                    if validasi(dicari, dataConsumable) == True:
+                        modifikasi.hapusitem(dicari, dataConsumable)
+                    else:
+                        print("Tidak ada ID consumable yang sesuai!")
+                else:
+                    print("Masukan tidak valid")
+
+    elif userinput == "ubahjumlah":
+        if loggedIn == False:
+            print("Harap login terlebih dahulu!")
+        else:
+            if userIsAdmin == False:
+                print("Hanya Admin yang dapat mengubah stok item")
+            else:
+                dicari = input("Masukkan ID: ")
+                jumlah = int(input("Masukkan jumlah: "))
+                if dicari[0] == "G":
+                    if validasi(dicari, dataGadget) == True:
+                        modifikasi.ubahjumlah(dicari,jumlah, dataGadget)
+                    else:
+                        print("Tidak ada ID gadget yang sesuai!")
+                elif dicari[0] == "C":
+                    if validasi(dicari, dataConsumable) == True:
+                        modifikasi.ubahjumlah(dicari,jumlah, dataConsumable)
+                    else:
+                        print("Tidak ada ID consumable yang sesuai!")
+                else:
+                    print("Masukan Tidak Valid!")
+
+
+    elif userinput =="pinjam":
+        if loggedIn == False:
+            print("Harap login terlebih dahulu!")
+        else:
+            if userIsAdmin == True:
+                print("Admin ngapain minjem item :)")
+            else:
+                inputGadget     = input("Masukkan ID Gadget: ")
+                if validasi(inputGadget, dataGadget) == True:
+                    inputTanggal    = input("Tanggal peminjaman: ")
+                    inputJumlah     = int(input("Jumlah peminjaman: "))
+                    user.pinjam(namaUser,inputGadget, inputTanggal, inputJumlah, dataGadget, dataInventory)
+                    riwayat.riwayatpinjam(namaUser,inputGadget, inputTanggal, inputJumlah, dataGadget, dataGadgetBorrowHistory)
+
+
 
 
 
