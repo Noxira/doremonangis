@@ -11,6 +11,8 @@ from Functions import register
 from Functions import login
 from Functions import search
 from Functions import modifikasi
+from Functions import kembalikan
+from Functions import meminta
 
 # Variabel lokal
 running = True
@@ -47,8 +49,9 @@ def modify_data(data, idx, col, value): # Untuk mengubah data di suatu data
 
 def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load data
     global dataUser
-    global userIsAdmin  # [Penting] akan menyimpan apakah user admin atau tidak (Bool)
     global running
+    global userID       # Menyimpan ID User utk dipakai selanjutnya
+    global userIsAdmin  # [Penting] akan menyimpan apakah user admin atau tidak (Bool)
     global loggedIn     # [Penting] akan menyimpan apakah user sudah login atau belum (Bool)
     
     if userinput == "register":
@@ -57,9 +60,9 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 print("")
                 dataUser = register.addNewUser(dataUser)
             else:
-                print("User bukan admin!")
+                print("User bukan admin!\n")
         else:
-            print("User belum log in!")
+            print("User belum log in!\n")
 
     elif userinput == "login":                                                          # F02
         if loggedIn == False:    
@@ -68,6 +71,7 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
             passTemp = input("Masukkan password: ")
             if login.passwordCheck(dataUser, userTemp, passTemp):
                 print("\nHalo " + userTemp + "! Selamat datang di Kantong Ajaib")
+                userID = login.findID(dataUser, userTemp)
                 loggedIn = True
                 if login.isAdmin(dataUser, userTemp):
                     userIsAdmin = True
@@ -76,7 +80,7 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
             else:
                 print("\nPassword atau Username salah!")
         else:
-            print("User sudah log in!")
+            print("User sudah log in!\n")
     
     elif userinput =="carirarity":                                                      # F03
         if loggedIn == True:
@@ -91,7 +95,7 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
             kategori = str(input("Masukan kategori: "))
             search.caritahun(dicari, kategori, dataGadget)
         else: 
-            print("User belum log in!")
+            print("User belum log in!\n")
 
     elif userinput=="tambahitem":                                                       # F05
         if loggedIn == True:
@@ -104,9 +108,21 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 else:
                     print("Masukan tidak valid")
             else:
-                print("User bukan admin!")
+                print("User bukan admin!\n")
         else:
-            print("User belum log in!")
+            print("User belum log in!\n")
+
+    elif userinput == "kembalikan":                                                     # F09
+        if loggedIn == True:
+            kembalikan.gadgetReturn(dataGadget, dataGadgetBorrowHistory, dataGadgetReturnHistory, userID)
+        else:
+            print("User belum log in!\n")
+
+    elif userinput == "minta":                                                          # F10
+        if loggedIn:
+            meminta.requestConsumable(dataConsumable, dataConsumableHistory, userID)
+        else:
+            print("User belum log in!\n")
 
     elif userinput == "save":                                                           # F15
         folderDir = input("\nMasukkan nama folder: ")

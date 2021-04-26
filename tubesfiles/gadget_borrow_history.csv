@@ -1,1 +1,3 @@
 id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned
+1;1;G3;26/4/2021;1;False
+2;1;G8;25/4/2021;1;True

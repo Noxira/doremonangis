@@ -12,3 +12,8 @@ def isAdmin(dataUser, username):
                 return True
             else: 
                 return False
+
+def findID(dataUser, username):
+    for i in range(len(dataUser)):
+        if username == dataUser[i][1]:
+            return dataUser[i][0]
