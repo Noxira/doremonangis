@@ -138,7 +138,7 @@ def writeFileConsumable(fileName, datas):
 def consumable_history_convert_array_data_to_real_values(array_data):
   arr_cpy = array_data[:]
   for i in range(5):
-    if(i == 4):
+    if(i == 4 or i == 0 or i == 1 or i == 2):
       arr_cpy[i] = int(arr_cpy[i])
   return arr_cpy
 
@@ -175,7 +175,7 @@ def writeFileConsumableHistory(fileName, datas):
 def gadget_borrow_history_convert_array_data_to_real_values(array_data):
   arr_cpy = array_data[:]
   for i in range(6):
-    if(i == 4):
+    if(i == 4 or i == 0 or i == 1):
       arr_cpy[i] = int(arr_cpy[i])
     elif(i == 5):
       arr_cpy[i] = bool(True) if arr_cpy[i] == "True" else bool(False)
@@ -213,6 +213,9 @@ def writeFileGadgetBorrowHistory(fileName, datas):
 # Inisiasi Fungsi2
 def gadget_return_history_convert_array_data_to_real_values(array_data):
   arr_cpy = array_data[:]
+  for i in range(4):
+    if(i == 0 or i == 1 or i==3):
+      arr_cpy[i] = int(arr_cpy[i])
   return arr_cpy
 
 
@@ -232,7 +235,7 @@ def openFileGadgetReturnHistory(fileName):
 
 def writeFileGadgetReturnHistory(fileName, datas):
     f = open(fileName, "w")
-    datas_as_string = convert_datas_to_string(datas, "id;id_peminjaman;tanggal_pengembalian")
+    datas_as_string = convert_datas_to_string(datas, "id;id_peminjaman;tanggal_pengembalian;jumlah")
     f.write(datas_as_string)
     f.close()
 
