@@ -12,6 +12,7 @@ from Functions import login
 from Functions import search
 from Functions import modifikasi
 from Functions import kembalikan
+from Functions import meminta
 
 # Variabel lokal
 running = True
@@ -111,9 +112,15 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("User belum log in!\n")
 
-    elif userinput == "kembalikan":
+    elif userinput == "kembalikan":                                                     # F09
         if loggedIn == True:
             kembalikan.gadgetReturn(dataGadget, dataGadgetBorrowHistory, dataGadgetReturnHistory, userID)
+        else:
+            print("User belum log in!\n")
+
+    elif userinput == "minta":                                                          # F10
+        if loggedIn:
+            meminta.requestConsumable(dataConsumable, dataConsumableHistory, userID)
         else:
             print("User belum log in!\n")
 

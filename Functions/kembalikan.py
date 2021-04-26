@@ -24,7 +24,7 @@ def gadgetReturn(arrayGadget, arrayGadgetBorrow, arrayGadgetReturn, userID):
         date = str(input("Tanggal pengembalian: "))
 
         print("\nItem " + str(ownedGadgetValues[returnNum-1][1]) + " (x" + str(ownedGadgetValues[returnNum-1][2]) + ") telah dikembalikan.\n")
-        temp = (int(len(arrayGadgetReturn)), ownedGadgetValues[returnNum-1][3], date, int(ownedGadgetValues[returnNum-1][2]))
+        temp = (int(len(arrayGadgetReturn)), ownedGadgetValues[returnNum-1][3], date)
         arrayGadgetReturn.append(temp)
         arrayGadgetBorrow[(ownedGadgetValues[returnNum-1][3]) - 1][5] = True
     else:
