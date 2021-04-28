@@ -17,4 +17,3 @@ def help() :
     print("exit             : untuk keluar dari sitem")
 
 
-help()
