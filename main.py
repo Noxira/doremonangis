@@ -10,11 +10,14 @@ from Functions import csv
 from Functions import register
 from Functions import login
 from Functions import search
-from Functions import modifikasi
+from Functions import tambah
+from Functions import ubahJumlah
+from Functions import hapus
+from Functions import pinjam
+from Functions import riwayat
 from Functions import kembalikan
 from Functions import meminta
-from Functions import f12
-from Functions import f13
+from Functions import help
 
 # Variabel lokal
 running = True
@@ -29,12 +32,14 @@ def loadAllFiles(): # Untuk loading file2 biar rapih aja
     global dataConsumableHistory
     global dataGadgetBorrowHistory
     global dataGadgetReturnHistory
+    global dataInventory
     dataUser = csv.openFileUser(args.folderDirectory + "/user.csv")
     dataGadget = csv.openFileGadget(args.folderDirectory + "/gadget.csv")
     dataConsumable = csv.openFileConsumable(args.folderDirectory + "/consumable.csv")
     dataConsumableHistory = csv.openFileConsumableHistory(args.folderDirectory + "/consumable_history.csv")
     dataGadgetBorrowHistory = csv.openFileGadgetBorrowHistory(args.folderDirectory + "/gadget_borrow_history.csv")
     dataGadgetReturnHistory = csv.openFileGadgetReturnHistory(args.folderDirectory + "/gadget_return_history.csv")
+    dataInventory = csv.openFileInventory(args.folderDirectory +"/inventory.csv")
 
 def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list of array menjadi csv ke suatu folder
     if not(os.path.exists(folderName)):
@@ -45,9 +50,20 @@ def saveFilesTo(folderName): # Untuk nyimpen data-data yang sekarang berupa list
     csv.writeFileConsumableHistory(folderName+"/consumable_history.csv", dataConsumableHistory)
     csv.writeFileGadgetBorrowHistory(folderName+"/gadget_borrow_history.csv", dataGadgetBorrowHistory)
     csv.writeFileGadgetReturnHistory(folderName+"/gadget_return_history.csv", dataGadgetReturnHistory)
+    csv.writeFileInventory(folderName +"/inventory.csv", dataInventory)
+
 
 def modify_data(data, idx, col, value): # Untuk mengubah data di suatu data
   data[idx][col] = value
+
+#fungsi validasi, bernilai True jika terdapat ID sesuai didalam file csv
+def validasi(masukan,namaFiles):
+    kondisi = False
+    for i in range (len(namaFiles)):
+        if namaFiles[i][0]==masukan:
+            kondisi=True
+    return kondisi
+
 
 def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load data
     global dataUser
@@ -55,9 +71,9 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
     global userID       # Menyimpan ID User utk dipakai selanjutnya
     global userIsAdmin  # [Penting] akan menyimpan apakah user admin atau tidak (Bool)
     global loggedIn     # [Penting] akan menyimpan apakah user sudah login atau belum (Bool)
-    
-    if userinput == "register":
-        if loggedIn == True:                                                            # F01
+
+    if userinput == "register":                                     #   F01
+        if loggedIn == True:
             if userIsAdmin == True:
                 print("")
                 dataUser = register.addNewUser(dataUser)
@@ -66,8 +82,9 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("User belum log in!\n")
 
-    elif userinput == "login":                                                          # F02
-        if loggedIn == False:    
+
+    elif userinput == "login":                                      #   F02
+        if loggedIn == False:
             print("")
             userTemp = input("Masukkan username: ")
             passTemp = input("Masukkan password: ")
@@ -83,30 +100,37 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 print("\nPassword atau Username salah!")
         else:
             print("User sudah log in!\n")
-    
-    elif userinput =="carirarity":                                                      # F03
+
+    elif userinput == "carirarity":                                 #   F03
         if loggedIn == True:
             dicari = str(input("Masukan rarity: "))
             search.carirarity(dicari, dataGadget)
         else:
-            print("User belum log in!")
+            print("User belum log in!\n")
 
-    elif userinput =="caritahun":                                                       # F04
-        if loggedIn == True: 
+    elif userinput == "caritahun":                                  #   F04
+        if loggedIn == True:
             dicari = int(input("Masukan tahun: "))
             kategori = str(input("Masukan kategori: "))
             search.caritahun(dicari, kategori, dataGadget)
-        else: 
+        else:
             print("User belum log in!\n")
 
-    elif userinput=="tambahitem":                                                       # F05
+    elif userinput == "tambahitem":                                 #   F05
         if loggedIn == True:
             if userIsAdmin == True:
                 dicari = (input("Masukan ID: "))
-                if dicari[0]=="G":
-                    modifikasi.tambahitem(dicari,dataGadget,userIsAdmin)
-                elif dicari[0]=="C":
-                    modifikasi.tambahitem(dicari, dataConsumable, userIsAdmin)
+
+                if dicari[0] == "G":
+                    if validasi(dicari, dataGadget) == False:
+                        tambah.tambahitem(dicari, dataGadget)
+                    else:
+                        print("Sudah ada gadget dengan ID tersebut!")
+                elif dicari[0] == "C":
+                    if validasi(dicari, dataConsumable) == False:
+                        tambah.tambahitem(dicari, dataConsumable)
+                    else:
+                        print("Sudah ada consumable dengan ID tersebut!")
                 else:
                     print("Masukan tidak valid")
             else:
@@ -114,15 +138,56 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("User belum log in!\n")
 
-<<<<<<< Updated upstream
-    elif userinput == "kembalikan":                                                     # F09
-=======
+    elif userinput == "hapusitem":                                  #   F06
+        if loggedIn == True:
+            if userIsAdmin ==True:
+                dicari = input("Masukkan ID: ")
+                if dicari[0] == "G":
+                    if validasi(dicari, dataGadget) == True:
+                        hapus.hapusitem(dicari, dataGadget)
+                    else:
+                        print("Tidak ada ID gadget yang sesuai!")
+                elif dicari[0] == "C":
+                    if validasi(dicari, dataConsumable) == True:
+                        hapus.hapusitem(dicari, dataConsumable)
+                    else:
+                        print("Tidak ada ID consumable yang sesuai!")
+                else:
+                    print("Masukan tidak valid")
+            else:
+                print("User bukan admin!\n")
+        else:
+            print("User belum log in!\n")
+
+    elif userinput == "ubahjumlah":                                 #   F07
+        if loggedIn == True:
+            if userIsAdmin == True:
+                dicari = input("Masukkan ID: ")
+                if dicari[0] == "G":
+                    if validasi(dicari, dataGadget) == True:
+                        jumlah = int(input("Masukkan jumlah: "))
+                        ubahJumlah.ubahjumlah(dicari,jumlah, dataGadget)
+                    else:
+                        print("Tidak ada ID gadget yang sesuai!")
+                elif dicari[0] == "C":
+                    jumlah = int(input("Masukkan jumlah: "))
+                    if validasi(dicari, dataConsumable) == True:
+                        ubahJumlah.ubahjumlah(dicari,jumlah, dataConsumable)
+                    else:
+                        print("Tidak ada ID consumable yang sesuai!")
+                else:
+                    print("Masukan tidak valid")
+            else:
+                print("User bukan admin!\n")
+        else:
+            print("User belum log in!\n")
+
     elif userinput == "pinjam":                                     #   F08
         if loggedIn == False:
-            print("Harap login terlebih dahulu!")
+            print("Harap login terlebih dahulu!\n")
         else:
             if userIsAdmin == True:
-                print("Admin ngapain minjem item :)")
+                print("Admin ngapain minjem item :)\n")
             else:
                 inputGadget = input("Masukkan ID Gadget: ")
                 if validasi(inputGadget, dataGadget) == True:
@@ -133,48 +198,60 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                                           dataGadgetBorrowHistory)
 
                 else:
-                    print("Masukan tidak valid!")
+                    print("Masukan tidak valid!\n")
+
+
 
     elif userinput == "kembalikan":                                 #   F09
->>>>>>> Stashed changes
         if loggedIn == True:
             kembalikan.gadgetReturn(dataGadget, dataGadgetBorrowHistory, dataGadgetReturnHistory, userID)
         else:
             print("User belum log in!\n")
 
-    elif userinput == "minta":                                                          # F10
+    elif userinput == "minta":                                      #   F10
         if loggedIn:
             meminta.requestConsumable(dataConsumable, dataConsumableHistory, userID)
         else:
             print("User belum log in!\n")
 
-<<<<<<< Updated upstream
-    elif userinput == "save":                                                           # F15
-=======
     elif userinput == "riwayatpinjam":                              #   F11
         if loggedIn == True:
             if userIsAdmin == True:
                 riwayat.readPinjam(dataGadgetBorrowHistory,dataGadget)
+            else:
+                print("User bukan admin!\n")
+        else:
+            print("User belum log in!\n")
 
     elif userinput == "riwayatkembali":                             #   F12
-        if loggedIn:
-            if userIsAdmin:
+        if loggedIn == True:
+            if userIsAdmin == True:
                 f12.riwayatGadget(dataGadgetReturnHistory, dataGadgetBorrowHistory, dataGadget, dataUser)
+            else:
+                print("User bukan admin!\n")
+        else:
+            print("User belum log in!\n")
 
     elif userinput == "riwayatambil":                               #   F13
-        if loggedIn:
-            if userIsAdmin:
+        if loggedIn == True:
+            if userIsAdmin ==True:
                 f13.riwayatConsumable(dataConsumableHistory, dataConsumable, dataUser)
+            else:
+                print("User bukan admin!\n")
+        else:
+            print("User belum log in!\n")
+
+    elif userinput == "help":                                       #   F14
+        help.help()
 
     elif userinput == "save":                                       #   F15
->>>>>>> Stashed changes
         folderDir = input("\nMasukkan nama folder: ")
         saveFilesTo(folderDir)
-
         print("\nSaving..")
-        print("Data telah disimpan pada folder "+ folderDir)
+        print("Data telah disimpan pada folder " + folderDir)
 
-    elif userinput == "exit":                                                           # F17
+
+    elif userinput == "exit":                                       #   F17
         saveFiles = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ")
         saveFiles = saveFiles.lower()
         if saveFiles == "y":
@@ -188,8 +265,8 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
 
 # Sistem Argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("folderDirectory", help="path folder yang akan dibuka sistem")          
-args = parser.parse_args()                                                              # F14
+parser.add_argument("folderDirectory", help="path folder yang akan dibuka sistem")
+args = parser.parse_args()                                          # F14
 try:
 
     # Kode di sini akan dijalankan bila folder dan file csv ada, alias
@@ -202,7 +279,7 @@ try:
     while running:
         userinput = input(">> ")
         switchcaseInput(userinput)
-    
+
 
 
 except IOError:
