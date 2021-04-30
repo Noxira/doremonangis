@@ -13,6 +13,8 @@ from Functions import search
 from Functions import modifikasi
 from Functions import kembalikan
 from Functions import meminta
+from Functions import f12
+from Functions import f13
 
 # Variabel lokal
 running = True
@@ -112,7 +114,29 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("User belum log in!\n")
 
+<<<<<<< Updated upstream
     elif userinput == "kembalikan":                                                     # F09
+=======
+    elif userinput == "pinjam":                                     #   F08
+        if loggedIn == False:
+            print("Harap login terlebih dahulu!")
+        else:
+            if userIsAdmin == True:
+                print("Admin ngapain minjem item :)")
+            else:
+                inputGadget = input("Masukkan ID Gadget: ")
+                if validasi(inputGadget, dataGadget) == True:
+                    inputTanggal = input("Tanggal peminjaman: ")
+                    inputJumlah = int(input("Jumlah peminjaman: "))
+                    pinjam.pinjam(userID, inputGadget, inputTanggal, inputJumlah, dataGadget, dataInventory)
+                    riwayat.writePinjam(userID, inputGadget, inputTanggal, inputJumlah, dataGadget,
+                                          dataGadgetBorrowHistory)
+
+                else:
+                    print("Masukan tidak valid!")
+
+    elif userinput == "kembalikan":                                 #   F09
+>>>>>>> Stashed changes
         if loggedIn == True:
             kembalikan.gadgetReturn(dataGadget, dataGadgetBorrowHistory, dataGadgetReturnHistory, userID)
         else:
@@ -124,7 +148,26 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("User belum log in!\n")
 
+<<<<<<< Updated upstream
     elif userinput == "save":                                                           # F15
+=======
+    elif userinput == "riwayatpinjam":                              #   F11
+        if loggedIn == True:
+            if userIsAdmin == True:
+                riwayat.readPinjam(dataGadgetBorrowHistory,dataGadget)
+
+    elif userinput == "riwayatkembali":                             #   F12
+        if loggedIn:
+            if userIsAdmin:
+                f12.riwayatGadget(dataGadgetReturnHistory, dataGadgetBorrowHistory, dataGadget, dataUser)
+
+    elif userinput == "riwayatambil":                               #   F13
+        if loggedIn:
+            if userIsAdmin:
+                f13.riwayatConsumable(dataConsumableHistory, dataConsumable, dataUser)
+
+    elif userinput == "save":                                       #   F15
+>>>>>>> Stashed changes
         folderDir = input("\nMasukkan nama folder: ")
         saveFilesTo(folderDir)
 
