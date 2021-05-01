@@ -256,7 +256,7 @@ def riwayatGadget(gadget_return_history, gadget_borrow_history, gadget, user, va
                 # print(f"Nama Pengambil       : {nama_peminjam}")
                 # print(f"Nama Gadget          : {nama_gadget}")
                 # print(f"Tanggal Pengembalian : {tanggal_kembali}")
-				ret.append([tanggal_kembali,id_kembali,nama_peminjam,nama_gadget])
+		ret.append([tanggal_kembali,id_kembali,nama_peminjam,nama_gadget])		
                 break
         # print()
  
@@ -308,7 +308,8 @@ def riwayatConsumable(consumable_history, consumable, user,value_pos):          
  
  
         ret.append([tanggal_kembali,id_ambil,nama_pengambil,nama_consumable,jumlah])
-        # print(f"ID Pengembalian      : {id_ambil}")
+        break
+	# print(f"ID Pengembalian      : {id_ambil}")
         # print(f"Nama Pengambil       : {nama_pengambil}")
         # print(f"Nama Consumable      : {nama_consumable}")
         # print(f"Tanggal Pengembalian : {tanggal_kembali}")
