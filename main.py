@@ -18,8 +18,6 @@ from Functions import riwayat
 from Functions import kembalikan
 from Functions import meminta
 from Functions import help
-from Functions import f12
-from Functions import f13
 
 # Variabel lokal
 running = True
