@@ -1,4 +1,4 @@
-def help():
+def help:
     print("============= HELP =============")
     print("'(A)' artinya hanya dapat diakses oleh admin,'(U)' artinya hanya dapat diakses oleh user, dan '(S)' artinya hanya dapat diakses oleh semuanya ")
     print("register - untuk melakukan registrasi user baru (A)")
