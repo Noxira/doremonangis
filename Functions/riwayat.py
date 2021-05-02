@@ -9,7 +9,7 @@ def writePinjam(user, gadget, tanggal, jumlah, fileGadget, fileRiwayat):
     # fileGadget = file gadget.csv
     # fileRiwayat = file gadget_borrow_history
 
-    fileRiwayat.append([0, "0", "0", "0", 0, False])
+    fileRiwayat.append([0, 0, "0", "0", 0, False])
 
     fileRiwayat[len(fileRiwayat) - 1][0] = len(fileRiwayat)
     fileRiwayat[len(fileRiwayat) - 1][1] = user
@@ -19,11 +19,12 @@ def writePinjam(user, gadget, tanggal, jumlah, fileGadget, fileRiwayat):
     return fileRiwayat
 
 
-def readPinjam(fileRiwayat, fileGadget):
+def readPinjam(fileRiwayat, fileGadget,fileUser):
     # fileRiwayat = file gadget_borrow_history
 
     # array untuk menampung nama gadget
     namaGadget = ["" for i in range(len(fileRiwayat))]
+    namaUser = ["" for i in range(len(fileRiwayat))]
 
     # mencari nama gadget dari id gadget
     for i in range(len(fileRiwayat)):
@@ -31,12 +32,18 @@ def readPinjam(fileRiwayat, fileGadget):
             if fileGadget[j][0] == fileRiwayat[i][2]:
                 namaGadget[i] = fileGadget[j][1]
 
+    # mencari nama user
+    for i in range(len(fileRiwayat)):
+        for j in range(len(fileUser)):
+            if int(fileUser[j][0]) == int(fileRiwayat[i][1]):
+                namaUser[i] = fileUser[j][2]
+
 
     # array untuk menyimpan riwayat
     fileRiwayat.sort(key=lambda date: datetime.strptime(date[3], "%d/%m/%Y"))
     for i in range(len(fileRiwayat)):
         print("ID Peminjaman      :  ", fileRiwayat[i][0])
-        print("Nama Pengambil     :  ", fileRiwayat[i][1])
+        print("Nama Pengambil     :  ", namaUser[i])
         print("Nama Gadget        :  ", namaGadget[i])
         print("Tanggal Peminjaman :  ", fileRiwayat[i][3])
         print("Jumlah             :  ", fileRiwayat[i][4])
