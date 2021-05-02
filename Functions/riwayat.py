@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def writePinjam(user,gadget,tanggal,jumlah,fileGadget,fileRiwayat):
     #user = user yang meminjam
     #gadget = ID gadget yang dipinjam
@@ -7,9 +9,9 @@ def writePinjam(user,gadget,tanggal,jumlah,fileGadget,fileRiwayat):
     #fileRiwayat = file gadget_borrow_history
 
     #mencari nama gadget dari id gadget
-    for i in range(len(fileGadget)):
-        if fileGadget[i][0]== gadget:
-            namaGadget = fileGadget[i][1]
+    # for i in range(len(fileGadget)):
+    #     if fileGadget[i][0]== gadget:
+    #         namaGadget = fileGadget[i][1]
 
     fileRiwayat.append([0,"0","0","0",0,False])
 
@@ -104,10 +106,10 @@ def riwayatGadget(gadget_return_history, gadget_borrow_history, gadget, user, va
                 # print(f"Nama Pengambil       : {nama_peminjam}")
                 # print(f"Nama Gadget          : {nama_gadget}")
                 # print(f"Tanggal Pengembalian : {tanggal_kembali}")
-		ret.append([tanggal_kembali,id_kembali,nama_peminjam,nama_gadget])		
+                ret.append([tanggal_kembali,id_kembali,nama_peminjam,nama_gadget])
                 break
         # print()
  
-    ret.sort(key=lambda date[0]: datetime.strptime(date[0],"%d/%m/%y"))
- 
-	return ret
+    #ret.sort(key=lambda ret[0]: datetime.strptime(ret[0],"%d/%m/%y"))\
+    ret.sort(key = lambda date: datetime.strptime(date[0], '%d/%m/%Y')) 
+    return ret

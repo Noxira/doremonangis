@@ -18,6 +18,8 @@ from Functions import riwayat
 from Functions import kembalikan
 from Functions import meminta
 from Functions import help
+from Functions import f12
+from Functions import f13
 
 # Variabel lokal
 running = True
@@ -223,29 +225,8 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         else:
             print("User belum log in!\n")
 
-<<<<<<< Updated upstream
-    elif userinput == "riwayatkembali":                             #   F12
-        if loggedIn == True:
-            if userIsAdmin == True:
-                f12.riwayatGadget(dataGadgetReturnHistory, dataGadgetBorrowHistory, dataGadget, dataUser)
-            else:
-                print("User bukan admin!\n")
-        else:
-            print("User belum log in!\n")
 
-    elif userinput == "riwayatambil":                               #   F13
-        if loggedIn == True:
-            if userIsAdmin ==True:
-                f13.riwayatConsumable(dataConsumableHistory, dataConsumable, dataUser)
-            else:
-                print("User bukan admin!\n")
-        else:
-            print("User belum log in!\n")
-
-    elif userinput == "help":                                       #   F14
-        help.help()
-=======
-    elif userinput == "riwayatkembali":                                               #   F12
+    elif userinput == "riwayatkembali":                                                             #  F12
         resultA = riwayat.riwayatGadget(dataGadgetReturnHistory,dataGadgetBorrowHistory,dataGadget,dataUser,0)
         for i in resultA:
             print(f"ID Pengembalian      : {i[1]}")
@@ -263,7 +244,8 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 print(f"Nama Gadget          : {i[3]}")
                 print(f"Tanggal Pengembalian : {i[0]}")
 
-    elif userinput == "riwayatambil":                                                #   F13
+
+    elif userinput == "riwayatambi":                                                               # F13
         resultA = riwayat.riwayatConsumable(dataConsumableHistory,dataConsumable,dataUser,0)
         for i in resultA:
             print(f"ID Pengembalian      : {i[1]}")
@@ -282,7 +264,9 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 print(f"Nama Consumable      : {i[3]}")
                 print(f"Tanggal Pengembalian : {i[0]}")
                 print(f"Jumlah               : {i[4]}") 
->>>>>>> Stashed changes
+
+    elif userinput == "help":                                       #   F14
+        help.help()
 
     elif userinput == "save":                                       #   F15
         folderDir = input("\nMasukkan nama folder: ")
@@ -290,8 +274,6 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
         print("\nSaving..")
         print("Data telah disimpan pada folder " + folderDir)
 
-    elif userinput == "help":                                       #   F16
-        help.help()
 
     elif userinput == "exit":                                       #   F17
         saveFiles = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ")
