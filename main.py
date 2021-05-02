@@ -245,7 +245,7 @@ def switchcaseInput(userinput): # Switchcase input user ketika sudah me-load dat
                 print(f"Tanggal Pengembalian : {i[0]}")
 
 
-    elif userinput == "riwayatambi":                                                               # F13
+    elif userinput == "riwayatambil":                                                               # F13
         resultA = riwayat.riwayatConsumable(dataConsumableHistory,dataConsumable,dataUser,0)
         for i in resultA:
             print(f"ID Pengembalian      : {i[1]}")
