@@ -61,7 +61,7 @@ def riwayatConsumable(consumable_history, consumable, user,value_pos):
 
         for orang in user:
             if orang[0]==id_pengambil:
-                nama_pengambil = orang[2]
+                nama_pengambil = str(orang[2])
                 break
 
 

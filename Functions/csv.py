@@ -137,9 +137,10 @@ def writeFileConsumable(fileName, datas):
 # Inisiasi Fungsi2
 def consumable_history_convert_array_data_to_real_values(array_data):
   arr_cpy = array_data[:]
-  for i in range(5):
-    if(i == 4):
-      arr_cpy[i] = int(arr_cpy[i])
+  if len(arr_cpy)>0:
+    for i in range(5):
+      if(i == 4):
+        arr_cpy[i] = int(arr_cpy[i])
   return arr_cpy
 
 
