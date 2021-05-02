@@ -4,15 +4,15 @@ def carirarity(x,datas):
 
     # inisiasi count untuk mengecek apakah ada data sesuai/tidak
     count = 0
-
+    print("Hasil Pencarian:")
     for i in range(len(datas)):
+
         if datas[i][4]== x:
-            print("Hasil Pencarian:\n")
             print("Nama             :", datas[i][1])
             print("Deskripsi        :", datas[i][2])
             print("Jumlah           :", datas[i][3])
             print("Rarity           :", datas[i][4])
-            print("Tahun ditemukan  :", datas[i][5])
+            print("Tahun ditemukan  :", datas[i][5], "\n")
             count = count+1     #setidaknya ada 1 data sesuai
 
         print(end="")
@@ -25,11 +25,11 @@ def caritahun(x,y,datas):
 
     #inisiasi count untuk mengecek apakah ada data/tidak
     count = 0
-
+    print("\nHasil Pencarian:")
     for i in range(len(datas)):
         if y=="=":
+
             if datas[i][5] == x:
-                print("Hasil Pencarian:\n")
                 print("Nama             :", datas[i][1])
                 print("Deskripsi        :", datas[i][2])
                 print("Jumlah           :", datas[i][3])
@@ -39,50 +39,53 @@ def caritahun(x,y,datas):
                 count=count+1
 
         elif y == ">":
+
             if datas[i][5] > x:
-                print("Hasil Pencarian:\n")
                 print("Nama             :", datas[i][1])
                 print("Deskripsi        :", datas[i][2])
                 print("Jumlah           :", datas[i][3])
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-                print(end="")
+                print("")
                 count = count + 1
 
         elif y == ">=":
+
             if datas[i][5] >= x:
-                print("Hasil Pencarian:\n")
+
                 print("Nama             :", datas[i][1])
                 print("Deskripsi        :", datas[i][2])
                 print("Jumlah           :", datas[i][3])
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-                print(end="")
+                print("")
                 count = count + 1
 
         elif y == "<=":
+
             if datas[i][5] <= x:
-                print("Hasil Pencarian:\n")
+
                 print("Nama             :", datas[i][1])
                 print("Deskripsi        :", datas[i][2])
                 print("Jumlah           :", datas[i][3])
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-                print(end="")
+                print("")
                 count = count + 1
         elif y == "<":
+
             if datas[i][5] < x:
-                print("Hasil Pencarian:\n")
+
                 print("Nama             :", datas[i][1])
                 print("Deskripsi        :", datas[i][2])
                 print("Jumlah           :", datas[i][3])
                 print("Rarity           :", datas[i][4])
                 print("Tahun ditemukan  :", datas[i][5])
 
-                print(end="")
+                print("")
                 count = count + 1
 
     if count == 0:
