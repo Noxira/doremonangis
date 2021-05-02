@@ -210,13 +210,19 @@ def switchcaseInput(userinput):  # Switchcase input user ketika sudah me-load da
 
     elif userinput == "kembalikan":  # F09
         if loggedIn == True:
-            kembalikan.gadgetReturn(dataGadget, dataGadgetBorrowHistory, dataGadgetReturnHistory, userID)
+            if not(userIsAdmin): 
+               kembalikan.gadgetReturn(dataGadget, dataGadgetBorrowHistory, dataGadgetReturnHistory, userID)
+            else: 
+                print("Admin tidak diperkenankan memakai command ini!")
         else:
             print("User belum log in!\n")
 
-    elif userinput == "minta":  # F10
+    elif userinput == "minta"       :  # F10
         if loggedIn:
-            meminta.requestConsumable(dataConsumable, dataConsumableHistory, userID)
+            if not(userIsAdmin):
+                meminta.requestConsumable(dataConsumable, dataConsumableHistory, userID)
+            else:
+                print("Admin tidak diperkenankan memakai command ini!")
         else:
             print("User belum log in!\n")
 
