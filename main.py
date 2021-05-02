@@ -255,7 +255,7 @@ def switchcaseInput(userinput):  # Switchcase input user ketika sudah me-load da
             print("User belum log in!\n")
 
 
-    elif userinput == "riwayatambi":  # F13
+    elif userinput == "riwayatambil":  # F13
         resultA = riwayat.riwayatConsumable(dataConsumableHistory, dataConsumable, dataUser, 0)
         if loggedIn == True:
             if userIsAdmin == True:
