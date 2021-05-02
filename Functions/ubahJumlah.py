@@ -14,4 +14,7 @@ def ubahjumlah(masukan,jumlah,namaFiles):
         print(jumlah,namaFiles[posisi][1], "gagal dibuang karena stok kurang! stok sekarang", namaFiles[posisi][3],)
     else:
         namaFiles[posisi][3] = namaFiles[posisi][3]+jumlah
-        print(jumlah, namaFiles[posisi][1], "berhasil ditambahkan! Stok sekarang", namaFiles[posisi][3])
+        if jumlah>0
+            print(jumlah, namaFiles[posisi][1], "berhasil ditambahkan! Stok sekarang", namaFiles[posisi][3])
+        else  
+            print(jumlah, namaFiles[posisi][1], "berhasil dihapus! Stok sekarang", namaFiles[posisi][3])
